@@ -42,28 +42,30 @@ defmodule Pos2gobff.ProductResolver do
   end
 
   def all(_args, _info) do
-    # products = [
-    #   %{
-    #     id: "1",
-    #     name: "coffee"}
-    # ]
-    
+    products = [
+      %{
+        id: "1",
+        name: "coffee"}
+    ]
+
     url = getProductUrl()
     authKey = get_api_key()
+    IO.puts authKey
     headers =["ApiKey": authKey]
     options = []
 
+
     case HTTPoison.get(url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        product = Poison.decode!(body, as: AuthToken)
-        IO.puts inspect(body)
-    #     # IO.puts Map.get(Poison.decode!(body, as: AuthToken), :ApiKey)
-    #     {:ok, products}
+        # {:ok, Poison.decode!(body, as: [Product])}
+        IO.puts inspect(Poison.decode!(body, as: [Product]))
         {:ok, []}
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         {:ok, []}
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:ok, reason}
     end
+
+    # {:ok, products}
   end
 end
