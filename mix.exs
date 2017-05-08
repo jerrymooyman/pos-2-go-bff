@@ -17,7 +17,7 @@ defmodule Pos2gobff.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Pos2gobff, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :absinthe, :httpoison, :poison]]
+     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :absinthe, :absinthe_plug, :httpoison, :poison]]
   end
 
   # Specifies which paths to compile per environment.
@@ -35,8 +35,9 @@ defmodule Pos2gobff.Mixfile do
      {:gettext, "~> 0.11"},
      {:absinthe, "~> 1.3.0"},
      {:absinthe_plug, "~> 1.2"},
+     {:absinthe_ecto, git: "https://github.com/absinthe-graphql/absinthe_ecto.git"},
      {:httpoison, "~> 0.11.1"},
-     {:poison, "~> 1.5"},
+     {:poison, "~> 2.0"},
      {:cowboy, "~> 1.0"}]
   end
 end
