@@ -4,7 +4,7 @@ defmodule Pos2gobff.Schema.Types do
 
   object :product do
     field :id, :string
-    field :name , :string
+    field :price , :float
   end
 
 end

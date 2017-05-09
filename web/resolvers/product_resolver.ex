@@ -41,31 +41,33 @@ defmodule Pos2gobff.ProductResolver do
     Enum.join([@baseUrl, @productQuery])
   end
 
+  def map_to_product_schema_type(dto_map) do
+    %{
+      id: Map.fetch!(dto_map, :Id),
+      price: Map.fetch!(dto_map, :Price)
+    }
+  end
+
+  def create_product_map(dto_struct) do
+    dto_struct
+      |> Map.from_struct
+      |> map_to_product_schema_type
+  end
+
   def all(_args, _info) do
-    products = [
-      %{
-        id: "1",
-        name: "coffee"}
-    ]
-
     url = getProductUrl()
-    authKey = get_api_key()
-    IO.puts authKey
-    headers =["ApiKey": authKey]
+    headers =["ApiKey": get_api_key()]
     options = []
-
 
     case HTTPoison.get(url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        # {:ok, Poison.decode!(body, as: [Product])}
-        IO.puts inspect(Poison.decode!(body, as: [Product]))
-        {:ok, []}
+        result = Poison.decode!(body, as: [Product])
+          |> Enum.map(fn(x) -> create_product_map(x) end)
+        {:ok, result}
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         {:ok, []}
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:ok, reason}
     end
-
-    # {:ok, products}
   end
 end
