@@ -47,12 +47,13 @@ defmodule Pos2gobff.ProductResolver do
     %{
       id: Map.fetch!(product, :Id),
       price: Map.fetch!(product, :Price),
-      description: map_to_product_description_schema_type(Map.fetch!(product, :Description)),
-      category: map_category(Map.fetch!(product, :Category))
+      description: map_description(Map.fetch!(product, :Description)),
+      category: map_category(Map.fetch!(product, :Category)),
+      group: map_group(Map.fetch!(product, :Group))
     }
   end
 
-  def map_to_product_description_schema_type(description) do
+  def map_description(description) do
     # description is used as a map
     %{
       standard: description["Standard"],
@@ -65,6 +66,14 @@ defmodule Pos2gobff.ProductResolver do
     %{
       id: category["Id"],
       name: category["Name"]
+    }
+  end
+
+  def map_group(group) do
+    # category is used as a map
+    %{
+      id: group["Id"],
+      name: group["Name"]
     }
   end
 
