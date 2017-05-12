@@ -14,6 +14,7 @@ defmodule Pos2gobff.ProductResolver do
               ]
   end
   defmodule Description do
+    @derive [Poison.Encoder]
     defstruct [
       :Standard,
       :Short,
@@ -41,16 +42,34 @@ defmodule Pos2gobff.ProductResolver do
     Enum.join([@baseUrl, @productQuery])
   end
 
-  def map_to_product_schema_type(dto_map) do
+  def map_to_product_schema_type(product) do
+    # product is used as a struct
     %{
-      id: Map.fetch!(dto_map, :Id),
-      price: Map.fetch!(dto_map, :Price)
+      id: Map.fetch!(product, :Id),
+      price: Map.fetch!(product, :Price),
+      description: map_to_product_description_schema_type(Map.fetch!(product, :Description)),
+      category: map_category(Map.fetch!(product, :Category))
+    }
+  end
+
+  def map_to_product_description_schema_type(description) do
+    # description is used as a map
+    %{
+      standard: description["Standard"],
+      short: description["Short"]
+    }
+  end
+
+  def map_category(category) do
+    # category is used as a map
+    %{
+      id: category["Id"],
+      name: category["Name"]
     }
   end
 
   def create_product_map(dto_struct) do
     dto_struct
-      |> Map.from_struct
       |> map_to_product_schema_type
   end
 
