@@ -13,12 +13,12 @@ defmodule Pos2gobff.MemberResolver do
               ]
   end
 
-  @baseUrl "http://webstores.swiftpos.com.au:4000/SwiftApi/api/"
-  @memberQuery "Member/{id}"
+  @member_query "Member/{id}"
 
-  defp getMemberUrl(id) do 
-    memberQuery = String.replace(@memberQuery, "{id}", id, global: false)
-    Enum.join([@baseUrl, memberQuery])
+  defp get_member_url(id) do 
+    member_query = String.replace(@member_query, "{id}", id, global: false)
+    base_url = Application.get_env(:pos2gobff, :api_base_url)
+    Enum.join([base_url, member_query])
   end
 
   defp map_member(member) do
@@ -31,7 +31,7 @@ defmodule Pos2gobff.MemberResolver do
   end
 
   def find(%{id: id}, _info) do
-    url = getMemberUrl(id)
+    url = get_member_url(id)
     headers =["ApiKey": get_api_key()]
     options = []
 
