@@ -15,8 +15,8 @@ defmodule Pos2gobff.MemberResolver do
 
   @member_query "Member/{id}"
 
-  defp get_member_url(id) do 
-    member_query = String.replace(@member_query, "{id}", id, global: false)
+  defp get_member_url(id) do
+    member_query = String.replace(@member_query, "{id}", "#{id}")
     base_url = Application.get_env(:pos2gobff, :api_base_url)
     Enum.join([base_url, member_query])
   end
@@ -30,16 +30,15 @@ defmodule Pos2gobff.MemberResolver do
      }
   end
 
-  def find(%{id: id}, _info) do
+  def find(%{id: id}, creds) do
     url = get_member_url(id)
-    headers =["ApiKey": get_api_key()]
+    headers =["ApiKey": get_api_key(creds)]
     options = []
 
     case HTTPoison.get(url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         result = Poison.decode!(body, as: Member)
           |> map_member
-        IO.puts inspect(result)
         {:ok, result}
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         {:ok, %{}}

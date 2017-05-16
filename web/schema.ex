@@ -8,7 +8,9 @@ defmodule Pos2gobff.Schema do
     end
     field :member, type: :member do
       arg :id, non_null(:id)
-      resolve &Pos2gobff.MemberResolver.find/2
+      resolve fn(x, %{context: %{location_id: location_id, user_id: user_id, password: password}}) ->
+        Pos2gobff.MemberResolver.find(x, %{location_id: location_id, user_id: user_id, password: password})
+      end
     end
   end
 
