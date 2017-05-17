@@ -16,9 +16,9 @@ defmodule Pos2gobff.Context do
   end
 
   def build_context(conn) do
-    %{location_id: get_req_header(conn, "locationid") |> Enum.at(0),
-      user_id: get_req_header(conn, "userid") |> Enum.at(0),
-      password: get_req_header(conn, "password") |> Enum.at(0)
+    %{location_id: get_req_header(conn, "locationid") |> hd,
+      user_id: get_req_header(conn, "userid") |> hd,
+      password: get_req_header(conn, "password") |> hd
     }
   end
 end

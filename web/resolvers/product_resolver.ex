@@ -44,6 +44,7 @@ defmodule Pos2gobff.ProductResolver do
 
   def map_to_product_schema_type(product) do
     # product is used as a struct
+    # FIXME there must be a better way to extract values from a struct
     %{
       id: Map.fetch!(product, :Id),
       price: Map.fetch!(product, :Price),
@@ -90,7 +91,7 @@ defmodule Pos2gobff.ProductResolver do
     case HTTPoison.get(url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         result = Poison.decode!(body, as: [Product])
-          |> Enum.map(fn(x) -> create_product_map(x) end)
+          |> Enum.map(&create_product_map/1)
         {:ok, result}
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         {:ok, []}
