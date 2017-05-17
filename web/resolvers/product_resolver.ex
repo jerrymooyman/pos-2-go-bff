@@ -83,9 +83,9 @@ defmodule Pos2gobff.ProductResolver do
       |> map_to_product_schema_type
   end
 
-  def all(_args, _info) do
+  def all(_args, creds) do
     url = getProductUrl()
-    headers =["ApiKey": get_api_key("test")]
+    headers =["ApiKey": get_api_key(creds)]
     options = []
 
     case HTTPoison.get(url, headers, options) do
