@@ -37,4 +37,12 @@ defmodule Pos2gobff.Schema.Types do
     field :email_address, :string
   end
 
+  @desc "an order"
+  object :order do
+    field :created_date, :string
+    field :scheduled_order_date, :string
+    field :booking_name, :string
+    field :member_id, :integer
+  end
+
 end

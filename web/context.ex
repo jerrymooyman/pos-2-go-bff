@@ -15,10 +15,17 @@ defmodule Pos2gobff.Context do
     put_private(conn, :absinthe, %{context: context})
   end
 
+  defp default_if_empty(list) do
+    case list do
+      [] -> [nil]
+      [_] -> list
+    end
+  end
+
   def build_context(conn) do
-    %{location_id: get_req_header(conn, "locationid") |> hd,
-      user_id: get_req_header(conn, "userid") |> hd,
-      password: get_req_header(conn, "password") |> hd
+    %{location_id: get_req_header(conn, "locationid") |> default_if_empty |> hd,
+      user_id: get_req_header(conn, "userid") |> default_if_empty |> hd,
+      password: get_req_header(conn, "password") |> default_if_empty |> hd
     }
   end
 end
