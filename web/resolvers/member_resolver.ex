@@ -15,7 +15,7 @@ defmodule Pos2gobff.MemberResolver do
 
   @member_query "Member/{id}"
 
-  defp get_member_url(id) do
+  defp get_resource_url(id) do
     member_query = String.replace(@member_query, "{id}", "#{id}")
     base_url = Application.get_env(:pos2gobff, :api_base_url)
     base_url <> member_query
@@ -31,7 +31,7 @@ defmodule Pos2gobff.MemberResolver do
   end
 
   def find(%{id: id}, creds) do
-    url = get_member_url(id)
+    url = get_resource_url(id)
     headers = ["ApiKey": get_api_key(creds)]
     options = []
 

@@ -5,6 +5,14 @@ defmodule Pos2gobff.Schema do
   creds = %{location_id: nil, user_id: nil, password: nil}
 
   query do
+    @desc "get categories"
+    field :category, list_of(:category) do
+      resolve fn(x, %{context: creds}) ->
+        Pos2gobff.CategoryResolver.all(x, creds)
+      end
+    end
+
+
     @desc "get products"
     field :products, list_of(:product) do
       resolve fn(x, %{context: creds}) ->
