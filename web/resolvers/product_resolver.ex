@@ -85,6 +85,7 @@ defmodule Pos2gobff.ProductResolver do
       |> map_to_product_schema_type
   end
 
+
   def all(%{category_id: category_id}, creds) do
     url = getProductUrl(category_id)
     IO.puts url
