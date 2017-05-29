@@ -2,6 +2,7 @@
 This is an Elixir implementation of a GraphQL server
 Provisions have been made to allow it to run as a docker container
 
+
 ## Get running
 
 To start the app:
