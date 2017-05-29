@@ -36,10 +36,12 @@ defmodule Pos2gobff.ProductResolver do
   end
 
   @baseUrl "http://webstores.swiftpos.com.au:4000/SwiftApi/api/"
-  @productQuery "Product?categoryId=232"
+  @resource_query "Product?familyId={category_id}"
 
-  defp getProductUrl() do
-    Enum.join([@baseUrl, @productQuery])
+  defp getProductUrl(category_id) do
+    resource_query = String.replace(@resource_query, "{category_id}", "#{category_id}")
+    base_url = Application.get_env(:pos2gobff, :api_base_url)
+    base_url <> resource_query
   end
 
   def map_to_product_schema_type(product) do
@@ -83,8 +85,9 @@ defmodule Pos2gobff.ProductResolver do
       |> map_to_product_schema_type
   end
 
-  def all(_args, creds) do
-    url = getProductUrl()
+  def all(%{category_id: category_id}, creds) do
+    url = getProductUrl(category_id)
+    IO.puts url
     headers =["ApiKey": get_api_key(creds)]
     options = []
 

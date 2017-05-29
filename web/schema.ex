@@ -6,15 +6,15 @@ defmodule Pos2gobff.Schema do
 
   query do
     @desc "get categories"
-    field :category, list_of(:category) do
+    field :all_categories, list_of(:category) do
       resolve fn(x, %{context: creds}) ->
         Pos2gobff.CategoryResolver.all(x, creds)
       end
     end
 
-
-    @desc "get products"
-    field :products, list_of(:product) do
+    @desc "get all products"
+    field :all_products, list_of(:product) do
+      arg :category_id, non_null(:id)
       resolve fn(x, %{context: creds}) ->
         Pos2gobff.ProductResolver.all(x, creds)
       end
@@ -22,7 +22,7 @@ defmodule Pos2gobff.Schema do
 
     @desc "get member"
     field :member, type: :member do
-      arg :id, non_null(:id)
+      arg :member_id, non_null(:id)
       resolve fn(x, %{context: creds}) ->
         Pos2gobff.MemberResolver.find(x, creds)
       end
