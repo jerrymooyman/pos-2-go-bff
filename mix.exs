@@ -38,6 +38,9 @@ defmodule Pos2gobff.Mixfile do
      {:absinthe_ecto, git: "https://github.com/absinthe-graphql/absinthe_ecto.git"},
      {:httpoison, "~> 0.11.1"},
      {:poison, "~> 1.5"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+
+     {:exrm, "~> 1.0.8"}
+    ]
   end
 end
